@@ -1,0 +1,45 @@
+version : '3'
+services:
+  db:
+    image: mysql
+    container_name: stage-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: stage-db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - dev
+  
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: stage
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      UPLOAD_LIMIT: 64M  
+    networks:
+      - dev
+  www:
+    build: docker
+    container_name: www_stage
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/vhosts:/etc/apache2/sites-enabled 
+      - ./:/var/www
+    networks:
+      - dev
+
+
+volumes:
+  mysql:
+
+networks:
+  dev:
+

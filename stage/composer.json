@@ -1,0 +1,7 @@
+{
+    "require": {
+        "cocur/slugify": "^4.3",
+        "fakerphp/faker": "^1.22",
+        "twig/string-extra": "^3.6"
+    }
+}
